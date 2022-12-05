@@ -1,0 +1,84 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String      @id @default(cuid())
+  email        String      @unique
+  password     String
+  emailVerify  Boolean     @default(false) @map("email_verify")
+  createdAt    DateTime    @default(now()) @map(name: "created_at")
+  updatedAt    DateTime    @updatedAt @map(name: "updated_at")
+  UserDetailId String?     @map("user_detail_id")
+  user         UserDetail? @relation(fields: [UserDetailId], references: [id])
+  admin        Boolean     @default(false)
+
+  @@map("users")
+}
+
+model UserDetail {
+  id      String  @id @default(cuid())
+  name    String?
+  email   String?
+  phone   String?
+  address String?
+  fbUrl   String? @map("fb_url")
+  user    User[]
+
+  @@map(name: "user_detail")
+}
+
+model Qr {
+  id        Int       @id @default(autoincrement())
+  url       String?
+  code      String    @unique @default(cuid())
+  buyerId   String?   @map("buyer_id")
+  ownerId   String?   @map("owner_id")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  idItems   String?
+  sku       String    @unique
+  lineItems LineItem? @relation(fields: [idItems], references: [id])
+
+  @@map("qrs")
+}
+
+model Order {
+  id        String     @id @default(cuid())
+  name      String
+  customer  Json?
+  shopName  String     @map("shop_name")
+  createdAt DateTime   @default(now()) @map("created_at")
+  updatedAt DateTime   @updatedAt @map("updated_at")
+  lineItems LineItem[]
+
+  @@map("order")
+}
+
+model LineItem {
+  id         String  @id @default(cuid())
+  externalId String? @map("external_id")
+  itemName   String? @map("item_name")
+  qrId       Int?    @map("qr_id")
+  price      String?
+  quantity   Int?
+
+  orderId   String?
+  order     Order?   @relation(fields: [orderId], references: [id])
+  address   String?
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map(name: "updated_at")
+  image     String?
+  content   String?
+  Qr        Qr[]
+
+  @@map("line_item")
+}

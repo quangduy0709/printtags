@@ -1,0 +1,66 @@
+input[type='checkbox']:checked,
+input[type='checkbox']:not(:checked) {
+  position: absolute;
+  height: 0px;
+  width: 0px;
+  border-width: 0px;
+}
+input[type='checkbox']:checked + label,
+input[type='checkbox']:not(:checked) + label {
+  z-index: 1;
+  min-height: 14px;
+  position: relative;
+  padding-left: 28px;
+  cursor: pointer;
+  line-height: 20px;
+  display: inline-block;
+  color: #666;
+}
+input[type='checkbox']:checked + label.checkbox-disable:before,
+input[type='checkbox']:not(:checked) + label.checkbox-disable:before {
+  border-radius: 4px;
+  content: '';
+  left: 0;
+  top: 0;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #ddd;
+  background: rgb(197, 189, 189);
+}
+
+input[type='checkbox']:checked + label:before,
+input[type='checkbox']:not(:checked) + label:before {
+  border-radius: 4px;
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #ddd;
+  background: #fff;
+}
+
+input[type='checkbox']:checked + label:after,
+input[type='checkbox']:not(:checked) + label:after {
+  content: '';
+  border-radius: 3px;
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  @apply bg-primaryColor;
+}
+input[type='checkbox']:not(:checked) + label:after {
+  opacity: 0;
+  -webkit-transform: scale(0);
+  transform: scale(0);
+}
+input[type='checkbox']:checked + label:after {
+  opacity: 1;
+  -webkit-transform: scale(1);
+  transform: scale(1);
+}

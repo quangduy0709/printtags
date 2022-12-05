@@ -1,0 +1,47 @@
+.message {
+  animation: message-fade-in 0.5s none;
+  transition: all 1s;
+  @apply flex mb-4 px-4 py-2 bg-white shadow-lg rounded-lg;
+}
+
+.messsage-content {
+  @apply ml-4;
+}
+
+.message.success {
+  @apply bg-green-400;
+}
+/* .message.info {
+  @apply bg-blue-500;
+}
+.message.error {
+  @apply bg-red-600;
+}
+.message.warning {
+  @apply bg-orange-500;
+} */
+
+.message.out {
+  transform: translateY(-200px);
+  /* margin-top: -200px; */
+  @apply opacity-0;
+}
+
+@keyframes message-fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(-200px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+#message-wrapper {
+  padding-top: 20px;
+  min-width: 50px;
+  z-index: 2147483602;
+  transform: translateX(-50%);
+  @apply fixed top-0 left-1/2;
+}
